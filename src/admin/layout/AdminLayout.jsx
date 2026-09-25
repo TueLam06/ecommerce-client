@@ -26,7 +26,7 @@ export default function AdminLayout() {
                     className="text-xl text-[#1A1A18]"
                     style={{ fontFamily: "'Fraunces', serif" }}
                 >
-                    Admin
+                    Stuff Corner - Admin
                 </Link>
 
                 <div className="flex items-center gap-6">

@@ -53,7 +53,7 @@ function ChatPage() {
                 {
                     sender: "bot",
                     text: "",
-                    productIds: data.productIds || [],
+                    products: data.products || [],
                 },
             ]);
 
@@ -73,7 +73,7 @@ function ChatPage() {
                     updated[updated.length - 1] = {
                         sender: "bot",
                         text: currentText,
-                        productIds: data.productIds || [],
+                        products: data.products || [],
                     };
 
                     return updated;
@@ -143,7 +143,7 @@ function ChatPage() {
 
                                     <p className="mt-2 text-sm text-[#6B6B65]">
                                         Ví dụ: "Tìm cho tôi một chiếc laptop
-                                        dưới 1000$"
+                                        dưới 20 triệu đồng"
                                     </p>
                                 </div>
                             </div>
@@ -201,25 +201,36 @@ function ChatPage() {
                                         </div>
 
                                         {/* Products */}
-                                        {msg.productIds?.length > 0 && (
+                                        {msg.products?.length > 0 && (
                                             <div className="mt-3 space-y-2">
                                                 <p className="text-xs font-medium uppercase tracking-wide text-[#6B6B65]">
                                                     Sản phẩm được đề xuất
                                                 </p>
 
                                                 <div className="flex flex-wrap gap-2">
-                                                    {msg.productIds.map(
-                                                        (id) => (
-                                                            <Link
-                                                                key={id}
-                                                                to={`/products/${id}`}
-                                                                className="rounded-md border border-[#D9D6CC] bg-white px-3 py-2 text-sm font-medium text-[#2F5233] transition-colors hover:border-[#2F5233] hover:bg-[#2F5233] hover:text-[#F5F3EE]"
-                                                            >
-                                                                Xem sản phẩm{" "}
-                                                                {id}
-                                                            </Link>
-                                                        )
-                                                    )}
+                                                    {msg.products.map((p) => (
+                                                        <Link
+                                                            key={p.id}
+                                                            to={`/products/${p.id}`}
+                                                            className="group flex max-w-full items-center gap-3 rounded-md border border-[#D9D6CC] bg-white py-2 pl-2 pr-4 transition-colors hover:border-[#2F5233]"
+                                                        >
+                                                            {p.image && (
+                                                                <img
+                                                                    src={p.image}
+                                                                    alt=""
+                                                                    className="h-10 w-10 shrink-0 rounded object-cover bg-[#F5F3EE]"
+                                                                />
+                                                            )}
+                                                            <span className="min-w-0">
+                                                                <span className="block truncate text-sm font-medium text-[#1A1A18] group-hover:text-[#2F5233]">
+                                                                    {p.name}
+                                                                </span>
+                                                                <span className="block text-xs text-[#2F5233]">
+                                                                    {Number(p.price).toLocaleString("vi-VN")}₫
+                                                                </span>
+                                                            </span>
+                                                        </Link>
+                                                    ))}
                                                 </div>
                                             </div>
                                         )}

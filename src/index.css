@@ -156,3 +156,58 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .promo-slide, .promo-slide-2 { animation: none; }
 }
+
+/* ---------- Hero slide 1: cụm ảnh trượt vào từ phải + lướt nhẹ ---------- */
+.hero-slide-in {
+  opacity: 0;
+  animation: hero-slide-in 1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation-delay: var(--d, 0ms);
+}
+.hero-pan { animation: hero-pan 9s ease-in-out infinite alternate; }
+@keyframes hero-slide-in {
+  from { opacity: 0; translate: 70px 0; }
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes hero-pan {
+  from { transform: scale(1.1) translateX(-3%); }
+  to { transform: scale(1.1) translateX(3%); }
+}
+
+/* ---------- Reveal khi cuộn tới (components/Reveal.jsx) ---------- */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    translate 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal-up { translate: 0 48px; }
+.reveal-left { translate: -56px 0; }
+.reveal-right { translate: 56px 0; }
+.reveal.is-visible { opacity: 1; translate: 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide-in { animation: none; opacity: 1; }
+  .hero-pan { animation: none; }
+  .reveal { opacity: 1; translate: none; transition: none; }
+}
+
+/* ---------- Dropdown (components/Dropdown.jsx): đậm dần khi mở, mờ dần khi đóng ---------- */
+.dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 -6px;
+  transition:
+    opacity 0.2s ease,
+    translate 0.2s ease,
+    visibility 0s linear 0.2s; /* ẩn hẳn sau khi mờ xong để không bấm nhầm */
+}
+.dropdown-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-menu { translate: none; }
+}

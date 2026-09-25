@@ -123,19 +123,22 @@ function IntroSlide({ products }) {
                 {products.map((p, i) => (
                     <div
                         key={p.id}
-                        className={`hero-pop absolute rounded-2xl bg-[#F5F3EE] p-2 shadow-2xl shadow-black/25 ${
+                        className={`hero-slide-in absolute rounded-2xl bg-[#F5F3EE] p-2 shadow-2xl shadow-black/25 ${
                             ["left-[4%] top-[8%] w-[46%] rotate-[-6deg]",
                              "right-[2%] top-[0%] w-[40%] rotate-[5deg]",
                              "left-[30%] bottom-[0%] w-[44%] rotate-[2deg]"][i]
                         }`}
-                        style={{ "--d": `${200 + i * 120}ms` }}
+                        style={{ "--d": `${200 + i * 160}ms` }}
                     >
                         <div className="hero-float" style={{ "--f": `${i * -2.2}s` }}>
-                            <img
-                                src={p.image}
-                                alt=""
-                                className="aspect-square w-full rounded-xl object-cover"
-                            />
+                            <div className="aspect-square w-full overflow-hidden rounded-xl">
+                                <img
+                                    src={p.image}
+                                    alt=""
+                                    className="hero-pan h-full w-full object-cover"
+                                    style={{ animationDelay: `${i * -3}s` }}
+                                />
+                            </div>
                         </div>
                     </div>
                 ))}

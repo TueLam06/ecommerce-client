@@ -1,5 +1,6 @@
 import ProductCard from "../components/ProductCard";
 import HeroBanner from "../components/HeroBanner";
+import Reveal from "../components/Reveal";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -71,9 +72,9 @@ function Home() {
 
 
             {/* PROMO — ảnh góc làm việc chuyển động thay cho khối màu */}
-            <section className="max-w-6xl mx-auto px-6">
+            <Reveal as="section" from="up" className="max-w-6xl mx-auto px-6">
                 <PromoBanner />
-            </section>
+            </Reveal>
 
 
             {/* PHỤ KIỆN */}
@@ -137,7 +138,7 @@ function ProductSection({ eyebrow, title, subtitle, products, linkTo = "/product
 
     return (
         <section className={`max-w-6xl mx-auto px-6 ${className}`}>
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+            <Reveal from="up" className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
                 <div>
                     <p className="text-sm tracking-wide text-[#6B6B65] mb-2">{eyebrow}</p>
                     <h2
@@ -155,13 +156,15 @@ function ProductSection({ eyebrow, title, subtitle, products, linkTo = "/product
                 >
                     Xem tất cả
                 </Link>
-            </div>
+            </Reveal>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4">
-                {products.map((p) => (
-                    <div key={p.id} className="transition duration-300 hover:-translate-y-1">
-                        <ProductCard product={p} />
-                    </div>
+                {products.map((p, i) => (
+                    <Reveal key={p.id} from="left" delay={i * 110}>
+                        <div className="h-full transition duration-300 hover:-translate-y-1">
+                            <ProductCard product={p} />
+                        </div>
+                    </Reveal>
                 ))}
             </div>
         </section>

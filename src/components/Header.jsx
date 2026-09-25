@@ -63,12 +63,17 @@ function Header({ title }) {
                         </button>
                     </div>
                 ) : (
-                    <Link
-                        to="/login"
-                        className="rounded-md bg-[#2F5233] text-[#F5F3EE] px-4 py-2 text-sm font-medium hover:bg-[#244027] transition-colors"
-                    >
-                        Đăng nhập
-                    </Link>
+                    <>
+                        <Link to="/track-order" className={linkClass}>
+                            Tra cứu đơn
+                        </Link>
+                        <Link
+                            to="/login"
+                            className="rounded-md bg-[#2F5233] text-[#F5F3EE] px-4 py-2 text-sm font-medium hover:bg-[#244027] transition-colors"
+                        >
+                            Đăng nhập
+                        </Link>
+                    </>
                 )}
             </div>
         </nav>

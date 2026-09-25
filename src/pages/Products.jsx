@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
+import CategoryIcon from "../components/CategoryIcon";
+import Dropdown from "../components/Dropdown";
 
 const SORT_OPTIONS = [
     { value: "newest-desc", label: "Mới nhất", sort: "newest", order: "desc" },
@@ -54,6 +56,8 @@ function Products() {
             });
     }, [sortValue, categoryValue]);
 
+    const selectedCategory = categories.find((c) => String(c.id) === String(categoryValue));
+
     if (loading) {
         return (
             <main className="min-h-screen bg-[#FAFAF8]">
@@ -107,13 +111,41 @@ function Products() {
 
             {/* Products */}
             <section className="max-w-6xl mx-auto px-6 py-12 md:py-16">
-                <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                {/* Danh mục dạng ô icon */}
+                <div
+                    role="tablist"
+                    aria-label="Danh mục sản phẩm"
+                    className="-mx-6 px-6 mb-10 flex gap-3 overflow-x-auto pb-1 md:mx-0 md:px-0 md:flex-wrap"
+                >
+                    {[{ id: "all", slug: "all", name: "Tất cả" }, ...categories].map((c) => {
+                        const active = String(c.id) === String(categoryValue);
+                        return (
+                            <button
+                                key={c.id}
+                                type="button"
+                                role="tab"
+                                aria-selected={active}
+                                onClick={() => setCategoryValue(String(c.id))}
+                                className={`flex h-28 w-28 shrink-0 flex-col items-center justify-center gap-3 rounded-lg border bg-white transition-colors md:h-[120px] md:w-[120px] ${
+                                    active
+                                        ? "border-[#1A1A18] text-[#1A1A18]"
+                                        : "border-[#E5E3DC] text-[#3A3A36] hover:border-[#B0AC9C]"
+                                }`}
+                            >
+                                <CategoryIcon slug={c.slug} className="h-10 w-10" />
+                                <span className="text-sm font-medium">{c.name}</span>
+                            </button>
+                        );
+                    })}
+                </div>
+
+                <div className="mb-8 flex items-end justify-between gap-4">
                     <div>
                         <h2
                             className="text-2xl md:text-3xl text-[#1A1A18]"
                             style={{ fontFamily: "'Fraunces', serif" }}
                         >
-                            Tất cả sản phẩm
+                            {selectedCategory ? selectedCategory.name : "Tất cả sản phẩm"}
                         </h2>
 
                         <p className="mt-2 text-sm text-[#6B6B65]">
@@ -121,50 +153,12 @@ function Products() {
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3">
-                        <div className="flex items-center gap-2">
-                            <label
-                                htmlFor="category"
-                                className="text-sm text-[#6B6B65] whitespace-nowrap"
-                            >
-                                Danh mục:
-                            </label>
-                            <select
-                                id="category"
-                                value={categoryValue}
-                                onChange={(e) => setCategoryValue(e.target.value)}
-                                className="rounded-md border border-[#D9D6CC] bg-white px-3 py-2 text-sm text-[#1A1A18] focus:outline-none focus:ring-2 focus:ring-[#2F5233]/30"
-                            >
-                                <option value="all">Tất cả</option>
-                                {categories.map((c) => (
-                                    <option key={c.id} value={c.id}>
-                                        {c.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            <label
-                                htmlFor="sort"
-                                className="text-sm text-[#6B6B65] whitespace-nowrap"
-                            >
-                                Sắp xếp:
-                            </label>
-                            <select
-                                id="sort"
-                                value={sortValue}
-                                onChange={(e) => setSortValue(e.target.value)}
-                                className="rounded-md border border-[#D9D6CC] bg-white px-3 py-2 text-sm text-[#1A1A18] focus:outline-none focus:ring-2 focus:ring-[#2F5233]/30"
-                            >
-                                {SORT_OPTIONS.map((opt) => (
-                                    <option key={opt.value} value={opt.value}>
-                                        {opt.label}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
+                    <Dropdown
+                        label="Sắp xếp:"
+                        value={sortValue}
+                        options={SORT_OPTIONS}
+                        onChange={setSortValue}
+                    />
                 </div>
 
                 {products.length === 0 ? (

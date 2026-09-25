@@ -13,6 +13,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import OrderHistory from "./pages/OrderHistory";
 import MyOrderDetail from "./pages/MyOrderDetail";
+import TrackOrder from "./pages/TrackOrder";
 
 import PrivateRoute from "./routes/PrivateRoute";
 import AdminRoute from "./routes/AdminRoute";
@@ -42,6 +43,7 @@ function App() {
                                             <Route path="/chat" element={<ChatPage />} />
                                             <Route path="/cart" element={<CartPage />} />
                                             <Route path="/checkout" element={<Checkout />} />
+                                            <Route path="/track-order" element={<TrackOrder />} />
                                             <Route path="/login" element={<LoginPage h/>} />
                                             <Route path="/register" element={<RegisterPage />} />
                                             <Route

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { authFetch } from "../../api/http";
+import DailyChart from "../components/DailyChart";
 
 export default function AdminHome() {
     const { token } = useAuth();
@@ -40,8 +41,9 @@ export default function AdminHome() {
 
     const cards = [
         {
-            label: "Doanh thu hôm nay",
-            value: stats ? formatCurrency(stats.todayRevenue) : null,
+            label: "Tổng doanh thu",
+            value: stats ? formatCurrency(stats.totalRevenue) : null,
+            hint: stats ? `Hôm nay: ${formatCurrency(stats.todayRevenue)}` : null,
         },
         {
             label: "Đơn hàng mới",
@@ -87,6 +89,9 @@ export default function AdminHome() {
                                 {card.value}
                             </p>
                         )}
+                        {!loading && !error && card.hint && (
+                            <p className="text-xs text-[#8A8A82] mt-1">{card.hint}</p>
+                        )}
                     </div>
                 ))}
             </div>
@@ -95,6 +100,17 @@ export default function AdminHome() {
                 <p className="text-sm text-[#B3261E] mb-4">
                     Không tải được dữ liệu tổng quan: {error}
                 </p>
+            )}
+
+            {/* Biểu đồ doanh thu / đơn hàng theo ngày */}
+            {loading ? (
+                <div className="h-72 rounded-md border border-[#D9D6CC] bg-white mb-8 animate-pulse" />
+            ) : (
+                stats?.daily && (
+                    <div className="mb-8">
+                        <DailyChart data={stats.daily} />
+                    </div>
+                )
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">

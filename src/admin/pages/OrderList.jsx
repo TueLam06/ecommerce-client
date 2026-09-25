@@ -12,7 +12,9 @@ const STATUS_LABELS = {
 };
 
 const STATUS_OPTIONS = Object.keys(STATUS_LABELS);
-const DELETABLE_STATUSES = ["completed", "cancelled"];
+// Đơn đã kết thúc: không đổi trạng thái được nữa, và được phép xoá
+const FINAL_STATUSES = ["completed", "cancelled"];
+const DELETABLE_STATUSES = FINAL_STATUSES;
 
 const STATUS_BADGE = {
     pending: "bg-[#FBF1DF] text-[#8A6D1D]",
@@ -51,6 +53,12 @@ export default function OrderList() {
         if (
             newStatus === "cancelled" &&
             !window.confirm(`Huỷ đơn hàng #${id}? Đơn đã huỷ sẽ không thể đổi trạng thái lại.`)
+        ) {
+            return;
+        }
+        if (
+            newStatus === "completed" &&
+            !window.confirm(`Xác nhận đơn hàng #${id} đã giao thành công? Sau đó sẽ không thể đổi trạng thái lại.`)
         ) {
             return;
         }
@@ -145,20 +153,21 @@ export default function OrderList() {
                                             >
                                                 {STATUS_LABELS[order.status]}
                                             </span>
-                                        <select
-                                            value={order.status}
-                                            disabled={order.status === "cancelled"}
-                                            onChange={(e) =>
-                                                handleStatusChange(order.id, e.target.value)
-                                            }
-                                            className="rounded border border-[#D9D6CC] bg-white text-xs px-2 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
-                                        >
-                                            {STATUS_OPTIONS.map((s) => (
-                                                <option key={s} value={s}>
-                                                    {STATUS_LABELS[s]}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        {!FINAL_STATUSES.includes(order.status) && (
+                                            <select
+                                                value={order.status}
+                                                onChange={(e) =>
+                                                    handleStatusChange(order.id, e.target.value)
+                                                }
+                                                className="rounded border border-[#D9D6CC] bg-white text-xs px-2 py-1"
+                                            >
+                                                {STATUS_OPTIONS.map((s) => (
+                                                    <option key={s} value={s}>
+                                                        {STATUS_LABELS[s]}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        )}
                                     </div>
                                 </td>
                                 <td className="px-4 py-3 text-[#6B6B65]">

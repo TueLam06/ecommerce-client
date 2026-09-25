@@ -31,10 +31,10 @@ export default function AdminLayout() {
 
                 <div className="flex items-center gap-6">
                     <Link
-                        to="/admin"
-                        className="text-[#1A1A18] hover:text-[#2F5233] transition-colors font-medium"
+                        to="/"
+                        className="rounded-md border border-[#2F5233] text-[#2F5233] px-4 py-2 text-sm font-medium hover:bg-[#2F5233] hover:text-[#F5F3EE] transition-colors"
                     >
-                        Về trang chủ
+                        Xem cửa hàng
                     </Link>
 
                     {user && (

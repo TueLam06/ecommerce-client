@@ -69,3 +69,90 @@ body {
   flex-direction: column;
   box-sizing: border-box;
 }
+
+/* ---------- Hero motion banner (Home) ---------- */
+.hero-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(60px);
+  opacity: 0.55;
+  pointer-events: none;
+  animation: hero-drift 18s ease-in-out infinite alternate;
+}
+.hero-blob-1 { width: 520px; height: 520px; background: #4E7A4F; top: -180px; left: -120px; }
+.hero-blob-2 { width: 420px; height: 420px; background: #7C9473; bottom: -200px; right: 10%; animation-duration: 22s; animation-delay: -6s; opacity: 0.35; }
+.hero-blob-3 { width: 300px; height: 300px; background: #1E3A22; top: 20%; right: -80px; animation-duration: 26s; animation-delay: -12s; }
+
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+.hero-in {
+  opacity: 0;
+  animation: hero-fade-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation-delay: var(--d, 0ms);
+}
+.hero-pop {
+  opacity: 0;
+  animation: hero-pop 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation-delay: var(--d, 0ms);
+}
+.hero-float { animation: hero-float 6s ease-in-out infinite; animation-delay: var(--f, 0s); }
+.hero-kenburns { animation: hero-kenburns 7s ease-out forwards; }
+.hero-progress { transform-origin: left; animation: hero-progress linear forwards; }
+
+@keyframes hero-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(80px, 40px) scale(1.15); }
+}
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-pop {
+  from { opacity: 0; translate: 0 30px; scale: 0.94; }
+  to { opacity: 1; translate: 0 0; scale: 1; }
+}
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes hero-kenburns {
+  from { transform: scale(1.12); }
+  to { transform: scale(1); }
+}
+@keyframes hero-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-blob, .hero-float, .hero-kenburns { animation: none; }
+  .hero-in, .hero-pop { animation: none; opacity: 1; }
+}
+
+/* ---------- Promo banner (Home): 2 ảnh crossfade + zoom chậm ---------- */
+.promo-slide {
+  animation: promo-kenburns 12s ease-in-out infinite;
+}
+.promo-slide-2 {
+  opacity: 0;
+  animation: promo-kenburns 12s ease-in-out infinite, promo-crossfade 12s ease-in-out infinite;
+}
+@keyframes promo-kenburns {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+@keyframes promo-crossfade {
+  0%, 40% { opacity: 0; }
+  50%, 90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .promo-slide, .promo-slide-2 { animation: none; }
+}

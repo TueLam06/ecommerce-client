@@ -113,7 +113,7 @@ function ProductDetail() {
                                 Mô tả
                             </p>
 
-                            <p className="leading-7 text-[#6B6B65]">
+                            <p className="leading-7 text-[#6B6B65] whitespace-pre-line">
                                 {product.description}
                             </p>
                         </div>

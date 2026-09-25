@@ -1,11 +1,21 @@
 import ProductCard from "../components/ProductCard";
+import HeroBanner from "../components/HeroBanner";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Home() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const featuredProducts = products.filter((item) => item.feature);
+    // Sản phẩm giá trị cao: 4 sản phẩm đắt nhất
+    const premiumProducts = [...products]
+        .sort((a, b) => Number(b.price) - Number(a.price))
+        .slice(0, 4);
+    // Phụ kiện cho góc làm việc
+    const accessoryProducts = products
+        .filter((item) => item.category === "Phu-kien")
+        .slice(0, 4);
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/products`)
@@ -47,105 +57,114 @@ function Home() {
         <div className="min-h-screen bg-[#FAFAF8]">
 
             {/* HERO */}
-            <section className="bg-[#2F5233] text-[#F5F3EE]">
-                <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-                    <div className="max-w-2xl">
+            <HeroBanner products={featuredProducts} />
 
-                        <p className="text-sm tracking-wide text-[#B7C9AF] mb-4">
-                            Bộ sưu tập mới
-                        </p>
 
-                        <h1
-                            className="text-4xl md:text-6xl leading-tight mb-6"
-                            style={{ fontFamily: "'Fraunces', serif" }}
-                        >
-                            Nâng cấp không gian sống của bạn.
-                        </h1>
+            {/* SẢN PHẨM CAO CẤP */}
+            <ProductSection
+                eyebrow="Cao cấp"
+                title="Đầu tư cho hiệu suất"
+                subtitle="Những thiết bị mạnh mẽ, bền bỉ cho công việc và sáng tạo."
+                products={premiumProducts}
+                className="py-20"
+            />
 
-                        <p className="text-[#D8E2D2] text-base md:text-lg max-w-xl leading-relaxed mb-10">
-                            Sản phẩm công nghệ chất lượng, chọn lọc kỹ càng cho công việc,
-                            giải trí và cuộc sống hằng ngày.
-                        </p>
 
-                        <div className="flex flex-wrap gap-4">
-                            <button className="rounded-md bg-[#F5F3EE] text-[#2F5233] px-6 py-3 font-medium hover:bg-white transition-colors">
-                                Mua ngay
-                            </button>
-                            <button className="rounded-md border border-[#7C9473] text-[#F5F3EE] px-6 py-3 font-medium hover:bg-white/5 transition-colors">
-                                Xem sản phẩm
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
+            {/* PROMO — ảnh góc làm việc chuyển động thay cho khối màu */}
+            <section className="max-w-6xl mx-auto px-6">
+                <PromoBanner />
             </section>
 
 
-            {/* FEATURED PRODUCTS */}
-            <section className="max-w-6xl mx-auto px-6 py-20">
-
-                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
-                    <div>
-                        <p className="text-sm tracking-wide text-[#6B6B65] mb-2">
-                            Nổi bật
-                        </p>
-                        <h2
-                            className="text-3xl md:text-4xl text-[#1A1A18]"
-                            style={{ fontFamily: "'Fraunces', serif" }}
-                        >
-                            Sản phẩm được yêu thích
-                        </h2>
-                        <p className="mt-2 text-[#6B6B65]">
-                            Lựa chọn kỹ càng dành riêng cho bạn.
-                        </p>
-                    </div>
-
-                    <button className="text-[#2F5233] font-medium underline underline-offset-2 self-start md:self-auto">
-                        Xem tất cả
-                    </button>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {featuredProducts.map((p) => (
-                        <div
-                            key={p.id}
-                            className="transition duration-300 hover:-translate-y-1"
-                        >
-                            <ProductCard product={p} />
-                        </div>
-                    ))}
-                </div>
-
-            </section>
-
-
-            {/* PROMO */}
-            <section className="max-w-6xl mx-auto px-6 pb-20">
-                <div className="rounded-2xl bg-[#2F5233] text-[#F5F3EE] p-10 md:p-16">
-                    <div className="max-w-xl">
-                        <p className="text-sm tracking-wide text-[#B7C9AF] mb-4">
-                            Ưu đãi có hạn
-                        </p>
-
-                        <h2
-                            className="text-3xl md:text-5xl leading-tight"
-                            style={{ fontFamily: "'Fraunces', serif" }}
-                        >
-                            Hoàn thiện góc làm việc của bạn.
-                        </h2>
-
-                        <p className="mt-4 text-[#D8E2D2] text-lg">
-                            Tìm mọi thứ bạn cần, chỉ trong một nơi.
-                        </p>
-
-                        <button className="rounded-md bg-[#F5F3EE] text-[#2F5233] px-6 py-3 font-medium hover:bg-white transition-colors mt-8">
-                            Mua sắm ngay
-                        </button>
-                    </div>
-                </div>
-            </section>
+            {/* PHỤ KIỆN */}
+            <ProductSection
+                eyebrow="Phụ kiện"
+                title="Hoàn thiện từng chi tiết"
+                subtitle="Chuột, bàn phím, tai nghe, webcam — nâng cấp nhỏ, khác biệt lớn."
+                products={accessoryProducts}
+                linkTo="/products"
+                className="pt-12 pb-20"
+            />
 
         </div>
+    );
+}
+
+// Ảnh từ Unsplash (giấy phép Unsplash, miễn phí dùng thương mại)
+const PROMO_IMAGES = [
+    "https://images.unsplash.com/photo-1570993492881-25240ce854f4?auto=format&fit=crop&w=1600&q=75",
+    "https://images.unsplash.com/photo-1594636797501-ef436e157819?auto=format&fit=crop&w=1600&q=75",
+];
+
+function PromoBanner() {
+    return (
+        <Link
+            to="/products"
+            className="promo-banner group relative block aspect-[4/3] sm:aspect-[3/2] overflow-hidden rounded-2xl bg-[#1E3A22]"
+        >
+            {PROMO_IMAGES.map((src, i) => (
+                <img
+                    key={src}
+                    src={src}
+                    alt=""
+                    loading="lazy"
+                    className={`promo-slide promo-slide-${i + 1} absolute inset-0 h-full w-full object-cover`}
+                />
+            ))}
+
+            {/* Lớp phủ để chữ luôn đọc rõ trên ảnh */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent" />
+
+            <div className="relative flex h-full flex-col justify-end p-8 md:p-14 text-white">
+                <p className="text-sm tracking-wide text-white/80 mb-3">Ưu đãi có hạn</p>
+                <h2
+                    className="max-w-lg text-3xl md:text-5xl leading-tight"
+                    style={{ fontFamily: "'Fraunces', serif" }}
+                >
+                    Hoàn thiện góc làm việc của bạn.
+                </h2>
+                <span className="mt-6 inline-flex w-fit items-center gap-2 rounded-md bg-white/95 px-5 py-2.5 font-medium text-[#2F5233] transition-colors group-hover:bg-white">
+                    Mua sắm ngay
+                    <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>
+                </span>
+            </div>
+        </Link>
+    );
+}
+
+function ProductSection({ eyebrow, title, subtitle, products, linkTo = "/products", className = "" }) {
+    if (products.length === 0) return null;
+
+    return (
+        <section className={`max-w-6xl mx-auto px-6 ${className}`}>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+                <div>
+                    <p className="text-sm tracking-wide text-[#6B6B65] mb-2">{eyebrow}</p>
+                    <h2
+                        className="text-3xl md:text-4xl text-[#1A1A18]"
+                        style={{ fontFamily: "'Fraunces', serif" }}
+                    >
+                        {title}
+                    </h2>
+                    <p className="mt-2 text-[#6B6B65]">{subtitle}</p>
+                </div>
+
+                <Link
+                    to={linkTo}
+                    className="text-[#2F5233] font-medium underline underline-offset-2 self-start md:self-auto"
+                >
+                    Xem tất cả
+                </Link>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4">
+                {products.map((p) => (
+                    <div key={p.id} className="transition duration-300 hover:-translate-y-1">
+                        <ProductCard product={p} />
+                    </div>
+                ))}
+            </div>
+        </section>
     );
 }
 

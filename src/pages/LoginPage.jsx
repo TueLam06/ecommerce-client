@@ -39,24 +39,24 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex flex-col md:flex-row bg-[#FAFAF8]">
-            {/* Panel thương hiệu — thu gọn thành header trên mobile */}
-            <div className="bg-[#2F5233] text-[#F5F3EE] px-8 py-10 md:py-0 md:w-1/2 flex items-center">
-                <div className="max-w-sm mx-auto md:mx-0 md:ml-auto md:mr-16">
-                    <p className="text-sm tracking-wide text-[#B7C9AF] mb-3">Cửa hàng của bạn</p>
+            {/* Panel thương hiệu — cột hẹp bên trái, thu gọn thành header trên mobile */}
+            <aside className="bg-[#2F5233] text-[#F5F3EE] px-6 py-8 md:px-10 md:py-0 md:w-[36%] lg:w-[30%] md:max-w-md flex items-center">
+                <div className="max-w-xs mx-auto">
+                    <p className="text-xs uppercase tracking-widest text-[#B7C9AF] mb-3">Cửa hàng của bạn</p>
                     <h1
-                        className="text-3xl md:text-5xl leading-tight mb-4"
+                        className="text-2xl md:text-3xl lg:text-4xl leading-tight mb-3"
                         style={{ fontFamily: "'Fraunces', serif" }}
                     >
                         Mua sắm dễ dàng, giao hàng an tâm.
                     </h1>
-                    <p className="text-[#D8E2D2] text-sm md:text-base hidden md:block">
+                    <p className="text-[#D8E2D2] text-sm leading-relaxed hidden md:block">
                         Đăng nhập để theo dõi đơn hàng, lưu địa chỉ và nhận ưu đãi dành riêng cho bạn.
                     </p>
                 </div>
-            </div>
+            </aside>
 
             {/* Form đăng nhập */}
-            <div className="flex-1 flex items-center justify-center px-6 py-12">
+            <main className="flex-1 flex items-center justify-center px-6 py-12">
                 <div className="w-full max-w-sm">
                     <h2 className="text-2xl text-[#1A1A18] mb-1" style={{ fontFamily: "'Fraunces', serif" }}>
                         Đăng nhập
@@ -114,7 +114,7 @@ export default function LoginPage() {
                         </button>
                     </form>
                 </div>
-            </div>
+            </main>
         </div>
     );
 }

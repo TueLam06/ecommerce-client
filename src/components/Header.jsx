@@ -41,6 +41,9 @@ function Header({ title }) {
 
                 {user ? (
                     <div className="flex items-center gap-4">
+                        <Link to="/orders" className={linkClass}>
+                            Đơn hàng của tôi
+                        </Link>
             <span className="text-sm text-[#6B6B65]">
               Xin chào, {user.name}
             </span>

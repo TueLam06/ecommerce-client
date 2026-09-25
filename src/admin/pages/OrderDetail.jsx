@@ -38,6 +38,12 @@ export default function OrderDetail() {
     }, [id, token]);
 
     const handleStatusChange = async (newStatus) => {
+        if (
+            newStatus === "cancelled" &&
+            !window.confirm(`Huỷ đơn hàng #${id}? Đơn đã huỷ sẽ không thể đổi trạng thái lại.`)
+        ) {
+            return;
+        }
         setSaving(true);
         try {
             await updateOrderStatus(id, newStatus, token);
@@ -115,9 +121,9 @@ export default function OrderDetail() {
                         <p className="text-[#6B6B65] mb-1">Trạng thái</p>
                         <select
                             value={order.status}
-                            disabled={saving}
+                            disabled={saving || order.status === "cancelled"}
                             onChange={(e) => handleStatusChange(e.target.value)}
-                            className="rounded-md border border-[#D9D6CC] bg-white px-3 py-2 text-sm text-[#1A1A18]"
+                            className="rounded-md border border-[#D9D6CC] bg-white px-3 py-2 text-sm text-[#1A1A18] disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {STATUS_OPTIONS.map((s) => (
                                 <option key={s} value={s}>

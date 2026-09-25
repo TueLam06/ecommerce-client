@@ -10,7 +10,10 @@ import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import OrderHistory from "./pages/OrderHistory";
+import MyOrderDetail from "./pages/MyOrderDetail";
 
+import PrivateRoute from "./routes/PrivateRoute";
 import AdminRoute from "./routes/AdminRoute";
 import AdminLayout from "./admin/layout/AdminLayout";
 import ProductList from "./admin/pages/ProductList";
@@ -39,6 +42,14 @@ function App() {
                                         <Route path="/checkout" element={<Checkout />} />
                                         <Route path="/login" element={<LoginPage h/>} />
                                         <Route path="/register" element={<RegisterPage />} />
+                                        <Route
+                                            path="/orders"
+                                            element={<PrivateRoute><OrderHistory /></PrivateRoute>}
+                                        />
+                                        <Route
+                                            path="/orders/:id"
+                                            element={<PrivateRoute><MyOrderDetail /></PrivateRoute>}
+                                        />
                                     </Routes>
                                 </>
                             }

@@ -87,6 +87,17 @@ function Checkout() {
                     >
                         Tiếp tục mua sắm
                     </Link>
+                    {token && (
+                        <div className="mt-4">
+                            <Link
+                                to={`/orders/${orderResult.orderId}`}
+                                style={inter}
+                                className="text-sm text-[#2F5233] underline underline-offset-2"
+                            >
+                                Xem đơn hàng vừa đặt
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
         );

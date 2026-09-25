@@ -12,6 +12,7 @@ const STATUS_LABELS = {
 };
 
 const STATUS_OPTIONS = Object.keys(STATUS_LABELS);
+const DELETABLE_STATUSES = ["completed", "cancelled"];
 
 const STATUS_BADGE = {
     pending: "bg-[#FBF1DF] text-[#8A6D1D]",
@@ -47,6 +48,12 @@ export default function OrderList() {
     }, [filterStatus]);
 
     const handleStatusChange = async (id, newStatus) => {
+        if (
+            newStatus === "cancelled" &&
+            !window.confirm(`Huỷ đơn hàng #${id}? Đơn đã huỷ sẽ không thể đổi trạng thái lại.`)
+        ) {
+            return;
+        }
         try {
             await updateOrderStatus(id, newStatus, token);
             setOrders((prev) =>
@@ -140,10 +147,11 @@ export default function OrderList() {
                                             </span>
                                         <select
                                             value={order.status}
+                                            disabled={order.status === "cancelled"}
                                             onChange={(e) =>
                                                 handleStatusChange(order.id, e.target.value)
                                             }
-                                            className="rounded border border-[#D9D6CC] bg-white text-xs px-2 py-1"
+                                            className="rounded border border-[#D9D6CC] bg-white text-xs px-2 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             {STATUS_OPTIONS.map((s) => (
                                                 <option key={s} value={s}>
@@ -167,7 +175,13 @@ export default function OrderList() {
                                     </Link>
                                     <button
                                         onClick={() => handleDelete(order.id)}
-                                        className="text-[#B3413B] font-medium underline underline-offset-2"
+                                        disabled={!DELETABLE_STATUSES.includes(order.status)}
+                                        title={
+                                            DELETABLE_STATUSES.includes(order.status)
+                                                ? undefined
+                                                : "Chỉ xoá được đơn đã giao thành công hoặc đã huỷ"
+                                        }
+                                        className="text-[#B3413B] font-medium underline underline-offset-2 disabled:text-[#C9C6BD] disabled:no-underline disabled:cursor-not-allowed"
                                     >
                                         Xóa
                                     </button>

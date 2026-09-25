@@ -41,6 +41,14 @@ function Header({ title }) {
 
                 {user ? (
                     <div className="flex items-center gap-4">
+                        {user.role === "admin" && (
+                            <Link
+                                to="/admin"
+                                className="rounded-md border border-[#2F5233] text-[#2F5233] px-4 py-2 text-sm font-medium hover:bg-[#2F5233] hover:text-[#F5F3EE] transition-colors"
+                            >
+                                Trang quản trị
+                            </Link>
+                        )}
                         <Link to="/orders" className={linkClass}>
                             Đơn hàng của tôi
                         </Link>
